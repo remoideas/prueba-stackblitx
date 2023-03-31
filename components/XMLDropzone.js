@@ -75,10 +75,15 @@ function MyDropzone() {
     const worksheetOrigin = utils.json_to_sheet(jsonData);
 
     // Establecer el ancho de la columna A
-    const column = 'Emisor (Cenace)';
-    const width = 100;
-    const wscols = [{ wch: width }];
-    worksheetOrigin[column] = { ...worksheetOrigin[column], ...{ wscols } };
+    worksheetOrigin['!cols'] = [
+      { wch: 40 },
+      { wch: 20 },
+      { wch: 70 },
+      { wch: 30 },
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 60 },
+    ];
 
     utils.book_append_sheet(workbook, worksheetOrigin, 'XML');
 
