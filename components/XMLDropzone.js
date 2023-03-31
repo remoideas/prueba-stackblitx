@@ -31,6 +31,7 @@ const StyledDropzone = styled.div`
 async function parseXMLToString(xml) {
   return new Promise((resolve) => {
     parseString(xml, function (err, result) {
+      console.log('result', JSON.stringify(result));
       resolve({
         'Emisor (Cenace)':
           result['cfdi:Comprobante']['cfdi:Emisor'][0].$.Nombre,
@@ -51,8 +52,14 @@ async function parseXMLToString(xml) {
           'cfdi:Traslados'
         ][0]['cfdi:Traslado'][0].$.Importe,
         TOTAL: result['cfdi:Comprobante'].$.Total,
-        CODIGO_FUF: 1,
-        PERIODO_ECD: 1,
+        CODIGO_FUF:
+          result['cfdi:Comprobante']['cfdi:Addenda'][0]['ad:ADENDAS'][0][
+            'ad:CAB'
+          ][0].$.CODIGO_FUF,
+        PERIODO_ECD:
+          result['cfdi:Comprobante']['cfdi:Addenda'][0]['ad:ADENDAS'][0][
+            'ad:CAB'
+          ][0].$.PERIODO_ECD,
       });
     });
   });
@@ -83,6 +90,10 @@ function MyDropzone() {
       { wch: 10 },
       { wch: 20 },
       { wch: 60 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 30 },
     ];
 
     utils.book_append_sheet(workbook, worksheetOrigin, 'XML');
